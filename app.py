@@ -20,7 +20,7 @@ from transformers.generation import GenerationConfig
 DEFAULT_CKPT_PATH = 'Qwen/Qwen-VL-Chat'
 BOX_TAG_PATTERN = r"<box>([\s\S]*?)</box>"
 PUNCTUATION = "！？。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏."
-
+CACHE = "cache/qwen"
 
 def _get_args():
     parser = ArgumentParser()
@@ -43,7 +43,7 @@ def _get_args():
 
 def _load_model_tokenizer(args):
     tokenizer = AutoTokenizer.from_pretrained(
-        args.checkpoint_path, trust_remote_code=True, resume_download=True,
+        args.checkpoint_path, trust_remote_code=True, resume_download=True, cache_dir=CACHE
     )
 
     if args.cpu_only:
@@ -56,9 +56,11 @@ def _load_model_tokenizer(args):
         device_map=device_map,
         trust_remote_code=True,
         resume_download=True,
+        cache_dir=CACHE
     ).eval()
+    
     model.generation_config = GenerationConfig.from_pretrained(
-        args.checkpoint_path, trust_remote_code=True, resume_download=True,
+        args.checkpoint_path, trust_remote_code=True, resume_download=True, cache_dir=CACHE
     )
 
     return model, tokenizer
