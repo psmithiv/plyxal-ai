@@ -185,52 +185,30 @@ def _launch_demo(args, model, tokenizer):
         task_history.clear()
         return []
 
-    with gr.Blocks() as demo:
-        gr.Markdown("""\
-<p align="center"><img src="https://modelscope.cn/api/v1/models/qwen/Qwen-7B-Chat/repo?
-Revision=master&FilePath=assets/logo.jpeg&View=true" style="height: 80px"/><p>""")
-        gr.Markdown("""<center><font size=8>Qwen-VL-Chat Bot</center>""")
-        gr.Markdown(
-            """\
-<center><font size=3>This WebUI is based on Qwen-VL-Chat, developed by Alibaba Cloud. \
-(本WebUI基于Qwen-VL-Chat打造，实现聊天机器人功能。)</center>""")
-        gr.Markdown("""\
-<center><font size=4>Qwen-VL <a href="https://modelscope.cn/models/qwen/Qwen-VL/summary">🤖 </a> 
-| <a href="https://huggingface.co/Qwen/Qwen-VL">🤗</a>&nbsp ｜ 
-Qwen-VL-Chat <a href="https://modelscope.cn/models/qwen/Qwen-VL-Chat/summary">🤖 </a> | 
-<a href="https://huggingface.co/Qwen/Qwen-VL-Chat">🤗</a>&nbsp ｜ 
-&nbsp<a href="https://github.com/QwenLM/Qwen-VL">Github</a></center>""")
+    chatbot = gr.Chatbot(label='Qwen-VL-Chat', elem_classes="control-height", height=750)
+    query = gr.Textbox(lines=2, label='Input')
+    task_history = gr.State([])
 
-        chatbot = gr.Chatbot(label='Qwen-VL-Chat', elem_classes="control-height", height=750)
-        query = gr.Textbox(lines=2, label='Input')
-        task_history = gr.State([])
+    with gr.Row():
+        empty_bin = gr.Button("Clear History")
+        submit_btn = gr.Button("Submit")
+        regen_btn = gr.Button("Regenerate")
+        addfile_btn = gr.UploadButton("Upload", file_types=["image"])
 
-        with gr.Row():
-            empty_bin = gr.Button("🧹 Clear History (清除历史)")
-            submit_btn = gr.Button("🚀 Submit (发送)")
-            regen_btn = gr.Button("🤔️ Regenerate (重试)")
-            addfile_btn = gr.UploadButton("📁 Upload (上传文件)", file_types=["image"])
-
-        submit_btn.click(add_text, [chatbot, task_history, query], [chatbot, task_history]).then(
-            predict, [chatbot, task_history], [chatbot], show_progress=True
-        )
-        submit_btn.click(reset_user_input, [], [query])
-        empty_bin.click(reset_state, [task_history], [chatbot], show_progress=True)
-        regen_btn.click(regenerate, [chatbot, task_history], [chatbot], show_progress=True)
-        addfile_btn.upload(add_file, [chatbot, task_history, addfile_btn], [chatbot, task_history], show_progress=True)
-
-        gr.Markdown("""\
-<font size=2>Note: This demo is governed by the original license of Qwen-VL. \
-We strongly advise users not to knowingly generate or allow others to knowingly generate harmful content, \
-including hate speech, violence, pornography, deception, etc. \
-(注：本演示受Qwen-VL的许可协议限制。我们强烈建议，用户不应传播及不应允许他人传播以下内容，\
-包括但不限于仇恨言论、暴力、色情、欺诈相关的有害信息。)""")
+    submit_btn.click(add_text, [chatbot, task_history, query], [chatbot, task_history]).then(
+        predict, [chatbot, task_history], [chatbot], show_progress=True
+    )
+    submit_btn.click(reset_user_input, [], [query])
+    empty_bin.click(reset_state, [task_history], [chatbot], show_progress=True)
+    regen_btn.click(regenerate, [chatbot, task_history], [chatbot], show_progress=True)
+    addfile_btn.upload(add_file, [chatbot, task_history, addfile_btn], [chatbot, task_history], show_progress=True)
 
     demo.queue().launch(
         share=args.share,
         inbrowser=args.inbrowser,
         server_port=args.server_port,
         server_name=args.server_name,
+        quiet=True
     )
 
 
