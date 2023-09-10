@@ -1,2 +1,2 @@
-# plyxal-Qwen
+# plyxal-ai
 Multi model AI framework
