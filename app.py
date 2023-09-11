@@ -20,7 +20,8 @@ from transformers.generation import GenerationConfig
 DEFAULT_CKPT_PATH = 'Qwen/Qwen-VL-Chat'
 BOX_TAG_PATTERN = r"<box>([\s\S]*?)</box>"
 PUNCTUATION = "！？。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏."
-CACHE = "cache/qwen"
+CACHE = "mdoel/qwen"
+QUIET = True
 
 def _get_args():
     parser = ArgumentParser()
@@ -36,6 +37,8 @@ def _get_args():
                         help="Demo server port.")
     parser.add_argument("--server-name", type=str, default="127.0.0.1",
                         help="Demo server name.")
+    parser.add_argument("--quiet", action="store_true", default=QUIET,
+                        help="Silence the output from Gradio")
 
     args = parser.parse_args()
     return args
@@ -185,30 +188,31 @@ def _launch_demo(args, model, tokenizer):
         task_history.clear()
         return []
 
-    chatbot = gr.Chatbot(label='Qwen-VL-Chat', elem_classes="control-height", height=750)
-    query = gr.Textbox(lines=2, label='Input')
-    task_history = gr.State([])
+    with gr.Blocks() as demo:
+        chatbot = gr.Chatbot(label='Qwen-VL-Chat', elem_classes="control-height", height=750)
+        query = gr.Textbox(lines=2, label='Input')
+        task_history = gr.State([])
 
-    with gr.Row():
-        empty_bin = gr.Button("Clear History")
-        submit_btn = gr.Button("Submit")
-        regen_btn = gr.Button("Regenerate")
-        addfile_btn = gr.UploadButton("Upload", file_types=["image"])
+        with gr.Row():
+            empty_bin = gr.Button("Clear History")
+            submit_btn = gr.Button("Submit")
+            regen_btn = gr.Button("Regenerate")
+            addfile_btn = gr.UploadButton("Upload", file_types=["image"])
 
-    submit_btn.click(add_text, [chatbot, task_history, query], [chatbot, task_history]).then(
-        predict, [chatbot, task_history], [chatbot], show_progress=True
-    )
-    submit_btn.click(reset_user_input, [], [query])
-    empty_bin.click(reset_state, [task_history], [chatbot], show_progress=True)
-    regen_btn.click(regenerate, [chatbot, task_history], [chatbot], show_progress=True)
-    addfile_btn.upload(add_file, [chatbot, task_history, addfile_btn], [chatbot, task_history], show_progress=True)
+        submit_btn.click(add_text, [chatbot, task_history, query], [chatbot, task_history]).then(
+            predict, [chatbot, task_history], [chatbot], show_progress=True
+        )
+        submit_btn.click(reset_user_input, [], [query])
+        empty_bin.click(reset_state, [task_history], [chatbot], show_progress=True)
+        regen_btn.click(regenerate, [chatbot, task_history], [chatbot], show_progress=True)
+        addfile_btn.upload(add_file, [chatbot, task_history, addfile_btn], [chatbot, task_history], show_progress=True)
 
     demo.queue().launch(
         share=args.share,
         inbrowser=args.inbrowser,
         server_port=args.server_port,
         server_name=args.server_name,
-        quiet=True
+        quiet=args.quiet
     )
 
 
