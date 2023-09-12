@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "plyxalai"
+name = "PlyxalAi"
 version = "0.0.1"
 description = "Multimodel/collection framewrok"
 license = "Proprietary"
@@ -19,8 +19,7 @@ classifiers = [
 ]
 
 packages = [
-    { include = "plyxalai", from = "src" },
-    { include = "qwenvl", from = "src" }
+    { include = "plyxal_ai", from = "src" }
 ]
 include = []
 
@@ -39,6 +38,7 @@ tensorboard = "^2.14.0"
 matplotlib = "^3.7.2"
 gradio = "^3.43.2"
 matplotlib-inline = "^0.1.6"
+optimum = "^1.13.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
