@@ -20,23 +20,32 @@ from transformers.generation import GenerationConfig
 DEFAULT_CKPT_PATH = 'Qwen/Qwen-VL-Chat'
 BOX_TAG_PATTERN = r"<box>([\s\S]*?)</box>"
 PUNCTUATION = "！？。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏."
-CACHE = "mdoel/qwen"
+MODEL_CACHE = "/mdoel/qwen"
 QUIET = True
 
 def _get_args():
     parser = ArgumentParser()
     parser.add_argument("-c", "--checkpoint-path", type=str, default=DEFAULT_CKPT_PATH,
                         help="Checkpoint name or path, default to %(default)r")
+    
+    parser.add_argument("--model-cache", type=str, default=MODEL_CACHE,
+                        help="Local model cache location. defult to %(default)r")
+    
     parser.add_argument("--cpu-only", action="store_true", 
                         help="Run demo with CPU only")
+    
     parser.add_argument("--share", action="store_true", default=False,
                         help="Create a publicly shareable link for the interface.")
+    
     parser.add_argument("--inbrowser", action="store_true", default=False,
                         help="Automatically launch the interface in a new tab on the default browser.")
+    
     parser.add_argument("--server-port", type=int, default=8000,
                         help="Demo server port.")
+    
     parser.add_argument("--server-name", type=str, default="127.0.0.1",
                         help="Demo server name.")
+    
     parser.add_argument("--quiet", action="store_true", default=QUIET,
                         help="Silence the output from Gradio")
 
@@ -46,7 +55,7 @@ def _get_args():
 
 def _load_model_tokenizer(args):
     tokenizer = AutoTokenizer.from_pretrained(
-        args.checkpoint_path, trust_remote_code=True, resume_download=True, cache_dir=CACHE
+        args.checkpoint_path, trust_remote_code=True, resume_download=True, cache_dir=args.model_cache
     )
 
     if args.cpu_only:
@@ -59,11 +68,11 @@ def _load_model_tokenizer(args):
         device_map=device_map,
         trust_remote_code=True,
         resume_download=True,
-        cache_dir=CACHE
+        cache_dir=args.model_cache
     ).eval()
     
     model.generation_config = GenerationConfig.from_pretrained(
-        args.checkpoint_path, trust_remote_code=True, resume_download=True, cache_dir=CACHE
+        args.checkpoint_path, trust_remote_code=True, resume_download=True, cache_dir=args.model_cache
     )
 
     return model, tokenizer
