@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "plyxal-ai"
+name = "plyxalai"
 version = "0.0.1"
 description = "Multimodel/collection framewrok"
 license = "Proprietary"
@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 packages = [
-    { include = "plyxal_ai", from = "src" },
+    { include = "plyxalai", from = "src" },
     { include = "qwenvl", from = "src" }
 ]
 include = []
