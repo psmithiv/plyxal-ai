@@ -1,0 +1,6 @@
+cache-dir = "venv"
+installer.parallel = false
+installer.max-workers = 16
+virtualenvs.create = true
+virtualenvs.options.always-copy = true
+virtualenvs.prompt = "{project_name}-py{python_version}"
