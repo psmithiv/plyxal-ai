@@ -1,6 +1,5 @@
-import qwenvl
 
-class plyxal_ai():
+class Plyxalai():
     
     def __init__(self):
         print("PlyxalAI Init")
