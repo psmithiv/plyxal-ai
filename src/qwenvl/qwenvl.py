@@ -19,7 +19,7 @@ from transformers.generation import GenerationConfig
 DEFAULT_CKPT_PATH = 'Qwen/Qwen-VL-Chat'
 BOX_TAG_PATTERN = r"<box>([\s\S]*?)</box>"
 PUNCTUATION = "！？。＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏."
-MODEL_CACHE = "/mdoel/qwen"
+MODEL_CACHE = "/"
 QUIET = True
 
 def _get_args():

@@ -6,7 +6,9 @@ SEED = 1234
 MODEL_CKPT_PATH = "Qwen/Qwen-VL-Chat-Int4"
 MODEL_CACHE_PATH = "/"
 
-class PlyxalAi:
+hello = "hello"
+
+class Main():
     """
     PlyxalAI is a class that interacts with a pre-trained language model for text and image-based conversations.
 
@@ -91,6 +93,8 @@ class PlyxalAi:
         response, history = self.model.chat(self.tokenizer, query=query, history=None, cache_dir=self.MODEL_CACHE_PATH)
         return response
 
+def test(words):
+    print(words)
     
 def main():
     """
