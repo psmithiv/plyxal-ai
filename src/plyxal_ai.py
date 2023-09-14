@@ -1,4 +1,4 @@
-import qwen_vl_int4
+from qwen_vl_int4 import Main
 import argparse
     
 def main():
@@ -23,8 +23,7 @@ def main():
 
     args = parser.parse_args()
 
-    qwen_vl_int4.sayHi()
-    # plyxal_ai = qwent_vl_int4.Main(message=args.message, image=args.image)
+    plyxal_ai = Main(message=args.message, image=args.image)
 
     
 if __name__ == '__main__':
