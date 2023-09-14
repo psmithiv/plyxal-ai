@@ -18,9 +18,7 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Artificial Intelligence"
 ]
 
-packages = [
-
-]
+packages = []
 include = []
 
 [tool.poetry.dependencies]
