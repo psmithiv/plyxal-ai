@@ -5,7 +5,7 @@ SEED = 1234
 MODEL_CKPT_PATH = "4bit/Qwen-VL-Chat-Int4"
 MODEL_CACHE_PATH = "/model/qwen"
     
-class Main():
+class QwenVlInt4():
     """
     PlyxalAI is a class that interacts with a pre-trained language model for text and image-based conversations.
 
