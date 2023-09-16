@@ -1,4 +1,4 @@
-cache-dir = "venv"
+cache-dir = ".venv"
 installer.parallel = false
 virtualenvs.create = true
 virtualenvs.options.always-copy = false
