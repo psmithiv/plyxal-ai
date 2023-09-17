@@ -2,6 +2,7 @@
 _*
 *.model/**/*
 *.venv/**/*
+*apps/**/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
