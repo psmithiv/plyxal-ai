@@ -42,6 +42,8 @@ ipywidgets = "^8.1.1"
 tqdm = "^4.66.1"
 yaspin = "^3.0.1"
 click = "^8.1.7"
+scrapy = "^2.10.1"
+bs4 = "^0.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
