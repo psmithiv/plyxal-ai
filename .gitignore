@@ -1,8 +1,9 @@
-# bullshit
+# project folders
 _*
 *.model/**/*
 *.venv/**/*
 *apps/**/*
+*pythonorg_scrapy_project/**/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
