@@ -4429,4 +4429,4 @@ termcolor = ">=2.3,<3.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.0,<3.13"
-content-hash = "a3178cda87e29cfbc2fb5c6055bc91f6c2e1a9d286969932db4fc29a1b9f64ab"
+content-hash = "55876bdb4302a401708c602b95aa4945c4a2d108677135b763f567222b019f3a"

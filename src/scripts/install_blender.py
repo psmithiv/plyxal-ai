@@ -1,29 +1,44 @@
 import os
-import subprocess
+import requests
+import tarfile
 
-# Define the Blender URL
-blender_url = 'https://download.blender.org/release/Blender2.83/blender-2.83.13-linux64.tar.xz'
+# Define the URL for downloading the Blender archive.
+blender_download_url = "https://mirrors.ocf.berkeley.edu/blender/release/Blender3.6/blender-3.6.2-linux-x64.tar.xz"
 
-# Use Poetry to get the path to the .venv folder
-venv_dir = subprocess.check_output(["poetry", "env", "info", "--path"]).decode("utf-8").strip()
+# Use the current working directory as the project root.
+project_root = os.getcwd()
 
-# Define the path to save the Blender installation
-blender_install_dir = os.path.join(venv_dir, 'blender')
+# Define the folder where you want to extract Blender (project root/apps).
+extract_folder = os.path.join("/blender")
 
-# Check if Blender is already installed in the virtual environment
-if os.path.exists(blender_install_dir):
-    print("Blender is already installed in the virtual environment.")
+# Create the extraction folder if it doesn't exist.
+os.makedirs(extract_folder, exist_ok=True)
+
+# Define the file name for the downloaded Blender archive.
+blender_archive = os.path.join(extract_folder, "blender.tar.xz")
+
+# Download Blender archive.
+response = requests.get(blender_download_url)
+if response.status_code == 200:
+    with open(blender_archive, "wb") as f:
+        f.write(response.content)
+    print("Blender downloaded successfully.")
 else:
-    # Download Blender tarball
-    os.system(f"curl -L {blender_url} -o blender.tar.xz")
-    
-    # Create a directory for Blender installation
-    os.makedirs(blender_install_dir, exist_ok=True)
+    print("Failed to download Blender.")
+    exit(1)
 
-    # Extract Blender tarball to the installation directory
-    os.system(f"tar -xf blender.tar.xz -C {blender_install_dir}")
+# Extract Blender archive.
+try:
+    with tarfile.open(blender_archive, "r:xz") as archive:
+        archive.extractall(extract_folder)
+    print("Blender extracted successfully.")
+except Exception as e:
+    print(f"Failed to extract Blender: {e}")
+    exit(1)
 
-    # Clean up the downloaded tarball
-    os.remove("blender.tar.xz")
+# Clean up the downloaded archive.
+os.remove(blender_archive)
 
-    print("Blender is now installed in the virtual environment.")
+# Verify Blender installation.
+# blender_path = os.path.join(extract_folder, "blender-3.6.2-linux-x64", "blender")
+# os.system(f"{blender_path} --version")

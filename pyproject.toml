@@ -41,6 +41,7 @@ ipykernel = "^6.25.2"
 ipywidgets = "^8.1.1"
 tqdm = "^4.66.1"
 yaspin = "^3.0.1"
+click = "^8.1.7"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
