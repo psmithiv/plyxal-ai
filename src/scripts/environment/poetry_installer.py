@@ -6,11 +6,6 @@ import subprocess
 class PoetryInstaller:
     def __init__(self):
         self.poetry_installed = False
-        self.current_step = 0
-
-    def colored_step(self):
-        """Generate a colored step label."""
-        return f"Step {self.current_step}:"
 
     def install_poetry(self):
         """Install Poetry if it is not already installed."""

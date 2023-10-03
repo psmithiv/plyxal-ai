@@ -18,21 +18,26 @@ class SetupEnvironment:
         return f"\033[94mStep {self.current_step} of {self.total_steps}:\033[0m"
 
     def check_python_and_pip_versions(self):
-        """Check Python and pip versions."""
+        """Step 1: Check Python and pip versions."""
         self.current_step += 1
         print(f"{self.colored_step()} Checking Python and pip versions...")
 
         try:
+            # Get the Python and pip versions using subprocess
             self.python_version = subprocess.check_output(["python3", "--version"], universal_newlines=True, stderr=subprocess.STDOUT).strip()
             self.pip_version = subprocess.check_output(["pip3", "--version"], universal_newlines=True, stderr=subprocess.STDOUT).strip()
         except FileNotFoundError:
             print("Error: Python or pip command not found.", file=sys.stderr)
             sys.exit(1)
 
+        # Print Python and pip versions
+        print(f"Python version: {self.python_version}")
+        print(f"pip version: {self.pip_version}")
+
         print()  # Add a line break
 
     def check_requirements(self):
-        """Check if Python and pip versions meet the requirements."""
+        """Step 2: Check if Python and pip versions meet the requirements."""
         self.current_step += 1
         print(f"{self.colored_step()} Checking requirements...")
 
@@ -46,23 +51,22 @@ class SetupEnvironment:
             print("Error: pip version 23.2.x is required.", file=sys.stderr)
             sys.exit(1)
 
-        print()  # Add a line break
-
     def install_poetry(self):
-        """Install Poetry if not already installed."""
+        """Step 3: Install Poetry if not already installed."""
         # Create an instance of PoetryInstaller
         poetry_installer = PoetryInstaller()
 
         # Call the install_poetry method
         poetry_installer.install_poetry()
 
-        print()  # Add a line break
+        # print()  # Add a line break
 
     def create_poetry_environment(self):
-        """Create Poetry virtual environment and install dependencies."""
+        """Step 4: Create Poetry virtual environment and install dependencies."""
         self.current_step += 1
         print(f"{self.colored_step()} Creating Poetry virtual environment and installing dependencies...")
 
+        # Run 'poetry install --no-cache' to create the environment and install dependencies
         os.system("poetry install --no-cache")
 
         # Get the Poetry venv path
@@ -71,11 +75,12 @@ class SetupEnvironment:
         print()  # Add a line break
 
     def create_jupyter_kernel(self):
-        """Create Jupyter kernel for Poetry environment."""
+        """Step 5: Create Jupyter kernel for Poetry environment."""
         self.current_step += 1
         print(f"{self.colored_step()} Creating Jupyter kernel...")
 
         if self.venv_path:
+            # Create the Jupyter kernel using the venv path
             kernel_command = f"{self.venv_path}/bin/python -m ipykernel install --user --name plyxal-ai --display-name plyxal-ai"
             os.system(kernel_command)
 
