@@ -1,18 +1,20 @@
 import os
 import subprocess
 import sys
+import argparse
 from src.scripts.environment.poetry_installer import PoetryInstaller
 from src.scripts.environment.symlink_manager import SymlinkManager
 
 class SetupEnvironment:
-    def __init__(self):
+    def __init__(self, create_symlinks=False):
         """Initializes the SetupEnvironment class."""
-        self.total_steps = 5  # Total number of steps in the process
+        self.total_steps = 5 if create_symlinks else 4  # Update total steps if symlinks are created
         self.current_step = 0  # Current step in the process
         self.python_version = None
         self.pip_version = None
         self.poetry_installed = None
         self.venv_path = None
+        self.create_symlinks = create_symlinks
 
     def colored_step(self):
         """Returns a colorized and formatted step information."""
@@ -78,7 +80,7 @@ class SetupEnvironment:
         print()  # Add a line break
 
     def create_symlinks(self):
-        """Step 4: Create Symlinks for files and folders starting with a dot."""
+        """Step 4: Create Symlinks for files and folders that are hidden because they start with a dot."""
         self.current_step += 1
         print(f"{self.colored_step()} Creating Symlinks...")
 
@@ -110,9 +112,14 @@ class SetupEnvironment:
         self.check_python_and_pip_versions()
         self.install_poetry()
         self.create_poetry_environment()
-        self.create_symlinks()
+        if self.create_symlinks:
+            self.create_symlinks()
         self.create_jupyter_kernel()
 
 if __name__ == "__main__":
-    config = SetupEnvironment()
+    parser = argparse.ArgumentParser(description='Setup Environment')
+    parser.add_argument('--create-symlinks', action='store_true', help='Create symlinks for files and folders that are hidden because they start with a .')
+    args = parser.parse_args()
+
+    config = SetupEnvironment(args.create_symlinks)
     config.run()
