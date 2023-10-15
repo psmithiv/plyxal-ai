@@ -1,9 +1,8 @@
-# poetry_installer.py
-
 import os
 import subprocess
+import argparse
 
-class PoetryInstaller:
+class PoetryManager:
     def __init__(self):
         self.poetry_installed = False
 
@@ -25,8 +24,8 @@ def main():
     parser = argparse.ArgumentParser(description="Check for Poetry and install")
     args = parser.parse_args()
 
-    poetry_installer = PoetryInstaller()
+    poetry_manager = PoetryManager()
+    poetry_manager.install_poetry()
 
-        
 if __name__ == "__main__":
     main()
