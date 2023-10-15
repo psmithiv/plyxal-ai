@@ -1,9 +1,14 @@
+#!/usr/bin/env python3
+
+# poetry_setup.py - A script for setting up a Poetry-based environment.
+
 import os
 import subprocess
 import sys
 import argparse
-from src.scripts.environment.poetry_installer import PoetryInstaller
+from src.scripts.environment.poetry_manager import PoetryManager
 from src.scripts.environment.symlink_manager import SymlinkManager
+from src.scripts.environment.step_formatter import StepFormatter  # Updated import
 
 class SetupEnvironment:
     def __init__(self, create_symlinks=False):
@@ -15,10 +20,11 @@ class SetupEnvironment:
         self.poetry_installed = None
         self.venv_path = None
         self.create_symlinks = create_symlinks
+        self.step_formatter = StepFormatter()  # Initialize StepFormatter
 
     def colored_step(self):
         """Returns a colorized and formatted step information."""
-        return f"\033[94mStep {self.current_step} of {self.total_steps}:\033[0m"
+        return self.step_formatter.colored_step(f"Step {self.current_step} of {self.total_steps}")
 
     def check_python_and_pip_versions(self):
         """Step 1: Check Python and pip versions."""
@@ -28,7 +34,7 @@ class SetupEnvironment:
         try:
             # Get the Python and pip versions using subprocess
             self.python_version = subprocess.check_output(["python3", "--version"], universal_newlines=True, stderr=subprocess.STDOUT).strip()
-            
+
             pip_version_output = subprocess.check_output(["pip3", "--version"], universal_newlines=True, stderr=subprocess.STDOUT).strip()
             pip_version_parts = pip_version_output.split()
             if len(pip_version_parts) >= 2:
@@ -38,33 +44,35 @@ class SetupEnvironment:
             sys.exit(1)
 
         # Check if Python version meets minimum requirement
-        if not self.python_version.startswith("Python 3.10"):
-            print("Error: Python version 3.10.x is required.", file=sys.stderr)
+        python_version_major_minor = self.python_version.split()[1].split('.')[:2]
+        minimum_python_version = "3.10".split('.')
+        if python_version_major_minor < minimum_python_version:
+            print(f"Error: Python version 3.10.x or higher is required. Installed version: {self.python_version}", file=sys.stderr)
             sys.exit(1)
         else:
             print(f"Python version: {self.python_version}")
 
         # Check if pip version meets minimum requirement
-        if not self.pip_version.startswith("pip 23.2"):
-            print("Error: pip version 23.2.x is required.", file=sys.stderr)
+        pip_version_major_minor = self.pip_version.split()[1].split('.')[:2]
+        minimum_pip_version = "23.2".split('.')
+        if pip_version_major_minor < minimum_pip_version:
+            print(f"Error: pip version 23.2.x or higher is required. Installed version: {self.pip_version}", file=sys.stderr)
             sys.exit(1)
         else:
-             print(f"pip version: {self.pip_version}")
-            
+            print(f"pip version: {self.pip_version}")
+
         print()  # Add a line break
 
     def install_poetry(self):
         """Step 2: Install Poetry if not already installed."""
         self.current_step += 1
         print(f"{self.colored_step()} Installing Poetry...")
-        
+
         # Create an instance of PoetryInstaller
-        poetry_installer = PoetryInstaller()
+        poetry_manager = PoetryManager()
 
         # Call the install_poetry method
-        poetry_installer.install_poetry()
-
-        # print()  # Add a line break
+        poetry_manager.install_poetry()
 
     def create_poetry_environment(self):
         """Step 3: Create Poetry virtual environment and install dependencies."""
@@ -77,8 +85,6 @@ class SetupEnvironment:
         # Get the Poetry venv path
         self.venv_path = subprocess.check_output(["poetry", "env", "info", "--path"], universal_newlines=True).strip()
 
-        print()  # Add a line break
-
     def create_symlinks(self):
         """Step 4: Create Symlinks for files and folders that are hidden because they start with a dot."""
         self.current_step += 1
@@ -86,12 +92,10 @@ class SetupEnvironment:
 
         # Initialize SymlinkManager with the current directory, ignore list, and quiet flag
         symlink_manager = SymlinkManager('./', ['.git', '.ipynb_checkpoints'], False)
-        
+
         # Call the create_symlinks method of SymlinkManager
         symlink_manager.create_symlinks()
-        
-        print() # Add a line break
-        
+
     def create_jupyter_kernel(self):
         """Step 5: Create Jupyter kernel for Poetry environment."""
         self.current_step += 1
@@ -104,8 +108,6 @@ class SetupEnvironment:
 
             print()  # Add a line break
             print(f"\033[94mCompleted:\033[0m The Poetry environment is now configured. Please switch kernels using 'Kernel -> Change Kernel...'")
-
-        print()  # Add a line break
 
     def run(self):
         """Run the setup process."""
