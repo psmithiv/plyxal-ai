@@ -4,7 +4,8 @@ import os
 import subprocess
 import argparse
 from pathlib import Path
-from step_formatter import StepFormatter
+from .step_formatter import StepFormatter
+
 
 class PoetryCleaner:
     def __init__(self, dry_run=False, keep_venv=False, auto_confirm=False):
@@ -82,16 +83,20 @@ class PoetryCleaner:
         if not self.keep_venv:  # Check the keep_venv flag
             self.remove_poetry()
 
+
 def confirm_execution(auto_confirm):
     """Ask for user confirmation before executing the script."""
-    if auto_confirm or input("WARNING: This action will clean up Poetry-related environment, including all cached files, environments, and kernels.\n"
-                             "Are you sure you want to continue? (y/N): ").lower() == "y":
+    if auto_confirm or input(
+            "WARNING: This action will clean up Poetry-related environment, including all cached files, environments, and kernels.\n"
+            "Are you sure you want to continue? (y/N): ").lower() == "y":
         return True
     return False
 
+
 def main():
     parser = argparse.ArgumentParser(description='Clean Poetry Environment')
-    parser.add_argument('--dry-run', action='store_true', help="Perform a dry run (list actions without executing them)")
+    parser.add_argument('--dry-run', action='store_true',
+                        help="Perform a dry run (list actions without executing them)")
     parser.add_argument('--keep-venv', action='store_true', help="Keep the .venv folder (for debugging purposes only)")
     parser.add_argument('-y', '--auto-confirm', action='store_true', help="Automatically confirm without prompting")
 
@@ -111,6 +116,7 @@ def main():
             print("Cleanup aborted.")
     else:
         print("Performing dry run...")
+
 
 if __name__ == "__main__":
     main()

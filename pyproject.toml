@@ -23,8 +23,8 @@ include = []
 
 [tool.poetry.dependencies]
 python = ">=3.10.0,<3.13"
-transformers = "4.33.3"
-accelerate = "^0.22.0"
+transformers = "^4.35.0"
+accelerate = "^0.24.1"
 tiktoken = "^0.4.0"
 einops = "^0.6.1"
 transformers-stream-generator = "0.0.4"
@@ -34,7 +34,7 @@ torch = ">=2.0.0, !=2.0.1"
 pillow = "^10.0.0"
 tensorboard = "^2.14.0"
 matplotlib = "^3.7.2"
-gradio = "^3.43.2"
+gradio = "^4.1.1"
 matplotlib-inline = "^0.1.6"
 optimum = "^1.13.1"
 ipykernel = "^6.25.2"
@@ -45,7 +45,10 @@ click = "^8.1.7"
 scrapy = "^2.10.1"
 bs4 = "^0.0.1"
 peft = "^0.5.0"
-deepspeed = "^0.10.3"
+deepspeed = "^0.12.0"
+drawnow = "^0.72.5"
+hyperyaml = "^0.1"
+ffmpeg = "^1.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -6,20 +6,20 @@ import os
 import subprocess
 import sys
 import argparse
-from src.scripts.environment.poetry_manager import PoetryManager
+from src.scripts.environment.poetry_installer import PoetryInstaller
 from src.scripts.environment.symlink_manager import SymlinkManager
 from src.scripts.environment.step_formatter import StepFormatter  # Updated import
 
+
 class SetupEnvironment:
-    def __init__(self, create_symlinks=False):
+    def __init__(self):
         """Initializes the SetupEnvironment class."""
-        self.total_steps = 5 if create_symlinks else 4  # Update total steps if symlinks are created
+        self.total_steps = 3  # Update total steps if symlinks are created
         self.current_step = 0  # Current step in the process
         self.python_version = None
         self.pip_version = None
         self.poetry_installed = None
         self.venv_path = None
-        self.create_symlinks = create_symlinks
         self.step_formatter = StepFormatter()  # Initialize StepFormatter
 
     def colored_step(self):
@@ -33,9 +33,11 @@ class SetupEnvironment:
 
         try:
             # Get the Python and pip versions using subprocess
-            self.python_version = subprocess.check_output(["python3", "--version"], universal_newlines=True, stderr=subprocess.STDOUT).strip()
+            self.python_version = subprocess.check_output(["python3", "--version"], universal_newlines=True,
+                                                          stderr=subprocess.STDOUT).strip()
 
-            pip_version_output = subprocess.check_output(["pip3", "--version"], universal_newlines=True, stderr=subprocess.STDOUT).strip()
+            pip_version_output = subprocess.check_output(["pip3", "--version"], universal_newlines=True,
+                                                         stderr=subprocess.STDOUT).strip()
             pip_version_parts = pip_version_output.split()
             if len(pip_version_parts) >= 2:
                 self.pip_version = pip_version_parts[0] + ' ' + pip_version_parts[1]
@@ -47,7 +49,8 @@ class SetupEnvironment:
         python_version_major_minor = self.python_version.split()[1].split('.')[:2]
         minimum_python_version = "3.10".split('.')
         if python_version_major_minor < minimum_python_version:
-            print(f"Error: Python version 3.10.x or higher is required. Installed version: {self.python_version}", file=sys.stderr)
+            print(f"Error: Python version 3.10.x or higher is required. Installed version: {self.python_version}",
+                  file=sys.stderr)
             sys.exit(1)
         else:
             print(f"Python version: {self.python_version}")
@@ -56,7 +59,8 @@ class SetupEnvironment:
         pip_version_major_minor = self.pip_version.split()[1].split('.')[:2]
         minimum_pip_version = "23.2".split('.')
         if pip_version_major_minor < minimum_pip_version:
-            print(f"Error: pip version 23.2.x or higher is required. Installed version: {self.pip_version}", file=sys.stderr)
+            print(f"Error: pip version 23.2.x or higher is required. Installed version: {self.pip_version}",
+                  file=sys.stderr)
             sys.exit(1)
         else:
             print(f"pip version: {self.pip_version}")
@@ -69,10 +73,10 @@ class SetupEnvironment:
         print(f"{self.colored_step()} Installing Poetry...")
 
         # Create an instance of PoetryInstaller
-        poetry_manager = PoetryManager()
+        poetry_installer = PoetryInstaller()
 
         # Call the install_poetry method
-        poetry_manager.install_poetry()
+        poetry_installer.install_poetry()
 
     def create_poetry_environment(self):
         """Step 3: Create Poetry virtual environment and install dependencies."""
@@ -96,6 +100,9 @@ class SetupEnvironment:
         # Call the create_symlinks method of SymlinkManager
         symlink_manager.create_symlinks()
 
+    def is_running_in_jupyter(self):
+        return "ipykernel_launcher" in sys.argv[0]
+
     def create_jupyter_kernel(self):
         """Step 5: Create Jupyter kernel for Poetry environment."""
         self.current_step += 1
@@ -107,21 +114,31 @@ class SetupEnvironment:
             os.system(kernel_command)
 
             print()  # Add a line break
-            print(f"\033[94mCompleted:\033[0m The Poetry environment is now configured. Please switch kernels using 'Kernel -> Change Kernel...'")
+            print(
+                f"\033[94mCompleted:\033[0m The Poetry environment is now configured. Please switch kernels using 'Kernel -> Change Kernel...'")
 
     def run(self):
+        print(self.is_running_in_jupyter())
+
+        if self.is_running_in_jupyter():
+            self.total_steps += 1
+
+        if self.is_running_in_jupyter():
+            self.total_steps += 1
+
         """Run the setup process."""
         self.check_python_and_pip_versions()
         self.install_poetry()
         self.create_poetry_environment()
-        if self.create_symlinks:
+        if self.is_running_in_jupyter():
             self.create_symlinks()
-        self.create_jupyter_kernel()
+        if self.is_running_in_jupyter():
+            self.create_jupyter_kernel()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Setup Environment')
-    parser.add_argument('--create-symlinks', action='store_true', help='Create symlinks for files and folders that are hidden because they start with a .')
     args = parser.parse_args()
 
-    config = SetupEnvironment(args.create_symlinks)
+    config = SetupEnvironment()
     config.run()

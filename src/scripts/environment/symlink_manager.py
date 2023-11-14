@@ -1,8 +1,11 @@
 import os
 import argparse
 
+
 class SymlinkManager:
-    def __init__(self, directory, ignore_list=[], quiet=False):
+    def __init__(self, directory, ignore_list=None, quiet=False):
+        if ignore_list is None:
+            ignore_list = []
         self.directory = directory
         self.ignore_list = ignore_list
         self.quiet = quiet
@@ -34,7 +37,7 @@ class SymlinkManager:
                 if not self.quiet:
                     print(f"Removed symlink: {item_path}")
 
-                # If recursive is True, also remove subfolders
+                # If recursive is True, also remove folders
                 if recursive and os.path.isdir(item_path):
                     os.rmdir(item_path)
 
@@ -51,11 +54,13 @@ class SymlinkManager:
             if not self.quiet:
                 print(f"An error occurred: {str(e)}")
 
+
 def main():
     parser = argparse.ArgumentParser(description="Create or remove symlinks for files and folders starting with a dot.")
     parser.add_argument("directory", help="Directory to scan for files and folders starting with a dot.")
     parser.add_argument("-r", "--remove", action="store_true", help="Remove symlinks instead of creating them.")
-    parser.add_argument("-i", "--ignore", nargs="*", default=[], help="List of folders/files to ignore (not create symlinks for).")
+    parser.add_argument("-i", "--ignore", nargs="*", default=[],
+                        help="List of folders/files to ignore (not create symlinks for).")
     parser.add_argument("-q", "--quiet", action="store_true", help="Mute all output.")
     args = parser.parse_args()
 
@@ -65,6 +70,7 @@ def main():
         symlink_manager.run(remove=True)
     else:
         symlink_manager.run()
+
 
 if __name__ == "__main__":
     main()
