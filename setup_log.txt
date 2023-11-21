@@ -1,4 +1,0 @@
-Creating Poetry virtual environment and installing dependencies...
-
-The Poetry environment is now configured. Please switch kernels using 'Kernel -> Change Kernel...'
-

@@ -165,37 +165,5 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+.idea/
 **/*.ttf
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/.no_exist/1a8d0b46ebb98171d2b63da694b6d49193151242/added_tokens.json
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/.no_exist/1a8d0b46ebb98171d2b63da694b6d49193151242/model.safetensors
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/.no_exist/1a8d0b46ebb98171d2b63da694b6d49193151242/model.safetensors.index.json
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/.no_exist/1a8d0b46ebb98171d2b63da694b6d49193151242/pytorch_model.bin
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/.no_exist/1a8d0b46ebb98171d2b63da694b6d49193151242/special_tokens_map.json
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/05be1d470d28513846fcbf0ccd75224bb4bf5b15ec3162305fddece503b0bcf8
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/10210974f84ebc17be7105847d3847b249b586ba
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/1d6d68e5056982035547049e14d7df29e67c8b813bcf8faa520484022893ea3a
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/2745ae50fffd4194e643f965183a29a9abc7595e8ee358d6311f0c81d5ab3fe0
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/2ccfc926ca2615796fd0822d0bc2e140a38aa1f7
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/33296fd065504ad10d93f4fbe8635f33e81885c0c2ac0396004f82770dd781ee
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/3979e9275092224be97c4f4631466e2942a34fad
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/4a47c7aec05e335385bf3357534c922f715b00ae
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/4e8e1d8cadcb50ee9dffecc629d368371d268e88
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/800f774aa1839e08f6d25da50e020dc6264539bbbdf691665409d92ae70656c8
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/99940cb4d10844d342f8f061d68fb317fd9e45d2a8903ab8aa5e3191a3a320d8
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/9b9b0e0416d84d7c88333eb261c77e5fe2d7f7be
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/9c37cacbcfbb909b4ed2b928c969633a4f84b348
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/bc53af5f365b1a364cf207d3c42e14e654889daf079e382332f055b715488794
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/ccc2cd5ceba381ae09af2a8683a41fb823d724fd
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/cdedf186b19eaaec00322620cbed775caac201f5
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/blobs/ee11ea92b22d04b18fdf2bcedb8a4189db41b0e9359332444bdb406cca7abcfe
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/refs/main
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/config.json
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/configuration_qwen.py
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/generation_config.json
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/modeling_qwen.py
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/pytorch_model-00001-of-00008.bin
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/pytorch_model-00002-of-00008.bin
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/pytorch_model-00003-of-00008.bin
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/pytorch_model-00004-of-00008.bin
-mdoel/qwen/models--Qwen--Qwen-7B-Chat/snapshots/1a8d0b46ebb98171d2b63da694b6d49193151242/pytorch_model-00005-of-00008.bin
